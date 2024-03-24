@@ -68,7 +68,10 @@ describe('WordleBoard', () => {
       expect(wrapper.text()).not.toContain(DEFEAT_MSG)
       expect(wrapper.text()).not.toContain(VICTORY_MSG)
     })
-    test.todo('player guesses are not case-sensitive')
+    test('player guesses are not case-sensitive', async () => {
+      await playerSubmitsGuess('fight')
+      expect(wrapper.text()).toContain(VICTORY_MSG)
+    })
     test.todo('player guesses can only contain letters')
   })
 })

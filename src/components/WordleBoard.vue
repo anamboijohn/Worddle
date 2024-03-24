@@ -15,7 +15,7 @@ const submitted = ref(false)
 
 const formattedWord = computed({
   get: () => word.value,
-  set: (value: string) => (word.value = value.slice(0, WORD_SIZE))
+  set: (value: string) => (word.value = value.slice(0, WORD_SIZE).toUpperCase())
 })
 
 const onSubmit = () => {
