@@ -49,4 +49,10 @@ describe('WordleBoard', () => {
     mount(WordleBoard, { props: { wordOfTheDay: 'DFGHF' } })
     expect(console.warn).toHaveBeenCalled()
   })
+
+  test('if a word is a valid english word no warning is emitted', async () => {
+    console.warn = vi.fn()
+    mount(WordleBoard, { props: { wordOfTheDay: 'FIGHT' } })
+    expect(console.warn).not.toHaveBeenCalled()
+  })
 })
