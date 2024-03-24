@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HelloWorld from '@/components/HelloWorld.vue'
+import WordleBoard from '@/components/WordleBoard.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: HelloWorld
+      component: WordleBoard
     }
   ]
 })
