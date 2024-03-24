@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VICTORY_MSG, DEFEAT_MSG } from '@/settings'
+import { VICTORY_MSG, DEFEAT_MSG, WORD_SIZE } from '@/settings'
 import { ref, computed } from 'vue'
 import englishWords from '@/englishWordsWith5Letters.json'
 defineProps({
@@ -14,7 +14,7 @@ const submitted = ref(false)
 
 const formattedWord = computed({
   get: () => word.value,
-  set: (value: string) => (word.value = value.slice(0, 5))
+  set: (value: string) => (word.value = value.slice(0, WORD_SIZE))
 })
 </script>
 
