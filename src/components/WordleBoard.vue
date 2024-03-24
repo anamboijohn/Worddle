@@ -19,7 +19,7 @@ const formattedWord = computed({
     (word.value = value
       .slice(0, WORD_SIZE)
       .toUpperCase()
-      .replace(/[^A-Z]/gi, ''))
+      .replace(/[^A-Z]+/gi, ''))
 })
 
 const onSubmit = () => {
