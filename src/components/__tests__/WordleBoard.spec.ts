@@ -37,7 +37,7 @@ describe('WordleBoard', () => {
 
   describe('Rules for defining tthe word of the day', () => {
     test.each(['fly', 'hello', 'DFGHF'])(
-      'if the word of the day does not have exactly five letters, a warning message appears',
+      'if the "%s" is provided, a warning message appears',
       async (wordOfTheDay: string) => {
         console.warn = vi.fn()
         mount(WordleBoard, { props: { wordOfTheDay } })
