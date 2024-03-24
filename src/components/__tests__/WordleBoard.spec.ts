@@ -33,29 +33,33 @@ describe('WordleBoard', () => {
       expect(wrapper.text()).not.toContain(DEFEAT_MSG)
     })
   })
-  test.each([
-    { wordOfTheDay: 'FLY', reason: 'word-of-day must contain exactly 5 characters' },
-    { wordOfTheDay: 'hello', reason: 'word-of-day must all be capital letters' },
-    { wordOfTheDay: 'DFGHF', reason: 'word-of-day must be a valid english word' }
-  ])(
-    'Since $reason: $wordOfTheDay is invalid hence a warning must be emitted',
-    async ({ wordOfTheDay }) => {
+
+  describe('Rules for defining tthe word of the day', () => {
+    beforeEach(() => {
       console.warn = vi.fn()
-      mount(WordleBoard, { props: { wordOfTheDay } })
-      expect(console.warn).toHaveBeenCalled()
-    }
-  )
+    })
+    test.each([
+      { wordOfTheDay: 'FLY', reason: 'word-of-day must contain exactly 5 characters' },
+      { wordOfTheDay: 'hello', reason: 'word-of-day must all be capital letters' },
+      { wordOfTheDay: 'DFGHF', reason: 'word-of-day must be a valid english word' }
+    ])(
+      'Since $reason: $wordOfTheDay is invalid hence a warning must be emitted',
+      async ({ wordOfTheDay }) => {
+        mount(WordleBoard, { props: { wordOfTheDay } })
+        expect(console.warn).toHaveBeenCalled()
+      }
+    )
 
-  test('if a word is a valid english word no warning is emitted', async () => {
-    console.warn = vi.fn()
-    mount(WordleBoard, { props: { wordOfTheDay: 'FIGHT' } })
-    expect(console.warn).not.toHaveBeenCalled()
+    test('if a word is a valid english word no warning is emitted', async () => {
+      mount(WordleBoard, { props: { wordOfTheDay: 'FIGHT' } })
+      expect(console.warn).not.toHaveBeenCalled()
+    })
   })
-})
 
-describe('Player inputs', () => {
-  test.todo('player guesses are limited to 5 letters')
-  test.todo('player guesses can only be submitted if they are real words')
-  test.todo('player guesses are not case-sensitive')
-  test.todo('player guesses can only contain letters')
+  describe('Player inputs', () => {
+    test.todo('player guesses are limited to 5 letters')
+    test.todo('player guesses can only be submitted if they are real words')
+    test.todo('player guesses are not case-sensitive')
+    test.todo('player guesses can only contain letters')
+  })
 })
