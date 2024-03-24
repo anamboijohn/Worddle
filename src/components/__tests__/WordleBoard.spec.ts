@@ -72,6 +72,9 @@ describe('WordleBoard', () => {
       await playerSubmitsGuess('fight')
       expect(wrapper.text()).toContain(VICTORY_MSG)
     })
-    test.todo('player guesses can only contain letters')
+    test('player guesses can only contain letters', async () => {
+      await playerSubmitsGuess('F!G7T')
+      expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toBe('FGT')
+    })
   })
 })
