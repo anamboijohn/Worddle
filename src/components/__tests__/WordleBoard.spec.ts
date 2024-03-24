@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import WordleBoard from '../WordleBoard.vue'
+import { VICTORY_MSG } from '@/settings'
 
 describe('WordleBoard', () => {
   test('a victory message appears when a user guess a word that matches the word of the day', async () => {
@@ -12,6 +13,6 @@ describe('WordleBoard', () => {
     await guessInput.trigger('keydown.enter')
 
     //Assert
-    expect(wrapper.text()).toContain('Congratulations! You guessed the word of the day!')
+    expect(wrapper.text()).toContain(VICTORY_MSG)
   })
 })
