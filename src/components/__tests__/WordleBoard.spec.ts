@@ -2,6 +2,7 @@ import { WORD_SIZE } from './../../settings'
 import { mount } from '@vue/test-utils'
 import WordleBoard from '../WordleBoard.vue'
 import { DEFEAT_MSG, VICTORY_MSG } from '@/settings'
+import exp from 'constants'
 
 describe('WordleBoard', () => {
   const wordOfTheDay = 'FIGHT'
@@ -25,7 +26,7 @@ describe('WordleBoard', () => {
     })
 
     test('a defeat message appears if the user makes a guess that is incorrect', async () => {
-      await playerSubmitsGuess('hello')
+      await playerSubmitsGuess('HELLO')
       expect(wrapper.text()).toContain(DEFEAT_MSG)
     })
 
@@ -58,11 +59,15 @@ describe('WordleBoard', () => {
   })
 
   describe('Player inputs', () => {
-    test(`player guesses are limited to ${WORD_SIZE} letters `, async () => {
+    test(`player guesses are limited to WORD_SIZE letters`, async () => {
       await playerSubmitsGuess(wordOfTheDay + 'EXTRA')
       expect(wrapper.text()).toContain(VICTORY_MSG)
     })
-    test.todo('player guesses can only be submitted if they are real words')
+    test('player guesses can only be submitted if they are real words', async () => {
+      await playerSubmitsGuess('QWERT')
+      expect(wrapper.text()).not.toContain(DEFEAT_MSG)
+      expect(wrapper.text()).not.toContain(VICTORY_MSG)
+    })
     test.todo('player guesses are not case-sensitive')
     test.todo('player guesses can only contain letters')
   })
