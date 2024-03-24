@@ -1,4 +1,3 @@
-import { wordOfTheDay } from './../../settings'
 import { mount } from '@vue/test-utils'
 import WordleBoard from '../WordleBoard.vue'
 import { DEFEAT_MSG, VICTORY_MSG } from '@/settings'
