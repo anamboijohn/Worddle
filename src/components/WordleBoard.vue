@@ -6,9 +6,10 @@ defineProps<{
 }>()
 
 const word = ref('')
+const submitted = ref(false)
 </script>
 
 <template>
-  <input type="text" name="word" id="word" v-model="word" />
-  <p>{{ word == wordOfTheDay ? VICTORY_MSG : DEFEAT_MSG }}</p>
+  <input type="text" name="word" id="word" v-model="word" @keydown.enter="submitted = true" />
+  <p v-if="submitted">{{ word == wordOfTheDay ? VICTORY_MSG : DEFEAT_MSG }}</p>
 </template>
