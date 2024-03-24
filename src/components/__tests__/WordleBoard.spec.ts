@@ -1,3 +1,4 @@
+import { wordOfTheDay } from './../../settings'
 import { mount } from '@vue/test-utils'
 import WordleBoard from '../WordleBoard.vue'
 import { DEFEAT_MSG, VICTORY_MSG } from '@/settings'
@@ -35,11 +36,14 @@ describe('WordleBoard', () => {
   })
 
   describe('Rules for defining tthe word of the day', () => {
-    test('if the word of the day does not have exactly five letters, a warning message appears', async () => {
-      console.warn = vi.fn()
-      mount(WordleBoard, { props: { wordOfTheDay: 'fly' } })
-      expect(console.warn).toHaveBeenCalled()
-    })
+    test.each(['fly', 'hello', 'DFGHF'])(
+      'if the word of the day does not have exactly five letters, a warning message appears',
+      async (wordOfTheDay: string) => {
+        console.warn = vi.fn()
+        mount(WordleBoard, { props: { wordOfTheDay } })
+        expect(console.warn).toHaveBeenCalled()
+      }
+    )
 
     test('if the word of the day are all not in uppercase a warning is emitted', async () => {
       console.warn = vi.fn()
