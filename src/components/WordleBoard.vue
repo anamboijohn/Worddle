@@ -6,20 +6,21 @@ import { ref } from 'vue'
 defineProps({
   wordOfTheDay: {
     type: String,
-    validator: (value: string) => englishWords.includes(value)
+    validator: (value: string) => englishWords.includes(value),
+    required: true
   }
 })
 
-const guessSubmitted = ref('')
+const guessSubmitted = ref<string[]>([])
 </script>
 
 <template>
   <main>
-    <guess-input @guess-submitted="(guess) => (guessSubmitted = guess)" />
+    <guess-input @guess-submitted="(guess) => guessSubmitted.push(guess)" />
     <p
       class="end-of-game-message"
-      v-if="guessSubmitted.length > 0"
-      v-text="guessSubmitted == wordOfTheDay ? VICTORY_MSG : DEFEAT_MSG"
+      v-if="guessSubmitted.length == 6 || guessSubmitted.includes(wordOfTheDay)"
+      v-text="guessSubmitted.includes(wordOfTheDay) ? VICTORY_MSG : DEFEAT_MSG"
     ></p>
   </main>
 </template>
