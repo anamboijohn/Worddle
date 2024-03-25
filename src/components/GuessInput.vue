@@ -12,6 +12,8 @@ const emit = defineEmits<{
 
 const word = ref<string | null>(null)
 
+const hasFailedValidation = ref<boolean>(false)
+
 const formattedWord = computed<string>({
   get: () => word.value ?? '',
   set: (value: string) => {
@@ -25,6 +27,8 @@ const formattedWord = computed<string>({
 
 const onSubmit = () => {
   if (!englishWords.includes(formattedWord.value)) {
+    hasFailedValidation.value = true
+    setTimeout(() => (hasFailedValidation.value = false), 500)
     return
   }
   emit('guess-submitted', formattedWord.value)
@@ -45,7 +49,7 @@ const onKeyDown = (event: KeyboardEvent) => {
 </script>
 
 <template>
-  <guess-view v-if="!disabled" :guess="formattedWord" />
+  <guess-view v-if="!disabled" :class="{ shake: hasFailedValidation }" :guess="formattedWord" />
 
   <input
     type="text"
@@ -66,5 +70,25 @@ const onKeyDown = (event: KeyboardEvent) => {
 input {
   position: absolute;
   opacity: 0;
+}
+
+.shake {
+  animation: shake;
+  animation-duration: 100ms;
+  animation-iteration-count: 2;
+}
+@keyframes shake {
+  0% {
+    transform: translateX(-2%);
+  }
+  25% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2%);
+  }
+  75% {
+    transform: translateX(0);
+  }
 }
 </style>
