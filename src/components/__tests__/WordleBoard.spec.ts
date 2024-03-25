@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import WordleBoard from '../WordleBoard.vue'
-import { DEFEAT_MSG, VICTORY_MSG } from '@/settings'
+import { DEFEAT_MSG, VICTORY_MSG, MAX_GUESSES_COUNT } from '@/settings'
 
 describe('WordleBoard', () => {
   const wordOfTheDay = 'FIGHT'
@@ -30,7 +30,7 @@ describe('WordleBoard', () => {
         { numberOfGuesses: 3, shouldSeeDefeatMessage: false },
         { numberOfGuesses: 4, shouldSeeDefeatMessage: false },
         { numberOfGuesses: 5, shouldSeeDefeatMessage: false },
-        { numberOfGuesses: 6, shouldSeeDefeatMessage: true }
+        { numberOfGuesses: MAX_GUESSES_COUNT, shouldSeeDefeatMessage: true }
       ],
       { context: true }
     )(
