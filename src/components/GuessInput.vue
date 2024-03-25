@@ -24,7 +24,7 @@ const onSubmit = () => {
   if (!englishWords.includes(formattedWord.value)) {
     return
   }
- emit('guess-submitted', formattedWord.value)
+  emit('guess-submitted', formattedWord.value)
 }
 
 const onKeyDown = (event: KeyboardEvent) => {
@@ -44,8 +44,12 @@ const onKeyDown = (event: KeyboardEvent) => {
     type="text"
     name="word"
     id="word"
+    :maxlength="WORD_SIZE"
     v-model="formattedWord"
     @keydown.enter="onSubmit"
     @keydown="onKeyDown"
+
+    autofocus
+    @blur="({target})=>(target as HTMLInputElement).focus()"
   />
 </template>
