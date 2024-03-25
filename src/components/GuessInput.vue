@@ -4,6 +4,8 @@ import { ref, computed } from 'vue'
 import englishWords from '@/englishWordsWith5Letters.json'
 import GuessView from '@/components/GuessView.vue'
 
+withDefaults(defineProps<{ disabled?: boolean }>(), { disabled: false })
+
 const emit = defineEmits<{
   'guess-submitted': [guess: string]
 }>()
@@ -43,13 +45,15 @@ const onKeyDown = (event: KeyboardEvent) => {
 </script>
 
 <template>
-  <guess-view :guess="formattedWord" />
+  <guess-view v-if="!disabled" :guess="formattedWord" />
 
   <input
     type="text"
     name="word"
     id="word"
     :maxlength="WORD_SIZE"
+    :disabled="disabled"
+    aria-label="Make your guess for the word of the day!"
     v-model="formattedWord"
     @keydown.enter="onSubmit"
     @keydown="onKeyDown"
