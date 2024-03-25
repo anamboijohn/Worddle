@@ -1,8 +1,6 @@
-import { WORD_SIZE } from './../../settings'
 import { mount } from '@vue/test-utils'
 import WordleBoard from '../WordleBoard.vue'
 import { DEFEAT_MSG, VICTORY_MSG } from '@/settings'
-import exp from 'constants'
 
 describe('WordleBoard', () => {
   const wordOfTheDay = 'FIGHT'
@@ -73,8 +71,12 @@ describe('WordleBoard', () => {
       expect(wrapper.text()).toContain(VICTORY_MSG)
     })
     test('player guesses can only contain letters', async () => {
-      await playerSubmitsGuess('F!7GT')
-      expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toBe('FGT')
+      await playerSubmitsGuess('763GT')
+      expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toBe('GT')
+    })
+    test("don't display non-letters in the input field", async () => {
+      await playerSubmitsGuess('333')
+      expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toBe('333j')
     })
   })
 })

@@ -2,7 +2,6 @@
 import { VICTORY_MSG, DEFEAT_MSG, WORD_SIZE } from '@/settings'
 import { ref, computed } from 'vue'
 import englishWords from '@/englishWordsWith5Letters.json'
-import { on } from 'events'
 defineProps({
   wordOfTheDay: {
     type: String,
@@ -10,51 +9,36 @@ defineProps({
   }
 })
 
-const word = ref('')
+const word = ref<string | null>(null)
 const submitted = ref(false)
 
-const formattedWord = computed({
-  get: () => word.value,
-  set: (value: string) =>
-    (word.value = value
+const formattedWord = computed<string>({
+  get: () => word.value ?? '',
+  set: (value: string) => {
+    word.value = null
+    word.value = value
       .slice(0, WORD_SIZE)
       .toUpperCase()
-      .replace(/[^A-Z]+/gi, ''))
+      .replace(/[^A-Z]+/gi, '')
+  }
 })
 
 const onSubmit = () => {
-  if (!englishWords.includes(word.value)) {
+  if (!englishWords.includes(formattedWord.value)) {
     return
   }
   submitted.value = true
 }
-</script>
-<!-- 
-  <script setup lang="ts">
-import { VICTORY_MSG, DEFEAT_MSG, WORD_SIZE } from '@/settings'
-import { ref, computed } from 'vue'
-import englishWords from '@/englishWordsWith5Letters.json'
-import { on } from 'events'
-defineProps({
-  wordOfTheDay: {
-    type: String,
-    validator: (value: string) => englishWords.includes(value)
+
+const onKeyDown = (event: KeyboardEvent) => {
+  const char = event.key.toUpperCase()
+  if (
+    (!/^[A-Z]$/.test(char) || formattedWord.value.length >= WORD_SIZE) &&
+    char !== 'BACKSPACE' &&
+    char !== 'DELETE'
+  ) {
+    event.preventDefault()
   }
-})
-
-const guessInProgress = ref('')
-const guessSubmitted = ref('')
-
-const formattedWord = computed({
-  get: () => guessInProgress.value,
-  set: (value: string) => (guessInProgress.value = value.slice(0, WORD_SIZE))
-})
-
-const onSubmit = () => {
-  if (!englishWords.includes(guessInProgress.value)) {
-    return
-  }
-  guessSubmitted.value = guessInProgress.value
 }
 </script>
 
@@ -65,15 +49,7 @@ const onSubmit = () => {
     id="word"
     v-model="formattedWord"
     @keydown.enter="onSubmit"
-    maxlength="WORD_SIZE"
+    @keydown="onKeyDown"
   />
-  <p v-if="guessSubmitted.length > 0">
-    {{ guessSubmitted == wordOfTheDay ? VICTORY_MSG : DEFEAT_MSG }}
-  </p>
-</template>
-
- -->
-<template>
-  <input type="text" name="word" id="word" v-model="formattedWord" @keydown.enter="onSubmit" />
-  <p v-if="submitted">{{ word == wordOfTheDay ? VICTORY_MSG : DEFEAT_MSG }}</p>
+  <p v-if="submitted" v-text="word == wordOfTheDay ? VICTORY_MSG : DEFEAT_MSG"></p>
 </template>
