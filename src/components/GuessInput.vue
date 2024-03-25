@@ -25,6 +25,8 @@ const onSubmit = () => {
     return
   }
   emit('guess-submitted', formattedWord.value)
+
+  word.value = null
 }
 
 const onKeyDown = (event: KeyboardEvent) => {
