@@ -12,12 +12,12 @@ describe('WordleBoard', () => {
   })
 
   async function playerTypesGuess(guess: string) {
-    await wrapper.find("input[type=text]").setValue(guess)
-}
+    await wrapper.find('input[type=text]').setValue(guess)
+  }
 
-async function playerPressesEnter() {
-    await wrapper.find("input[type=text]").trigger("keydown.enter")
-}
+  async function playerPressesEnter() {
+    await wrapper.find('input[type=text]').trigger('keydown.enter')
+  }
 
   async function playerTypesAndSubmitsGuess(guess: string) {
     await playerTypesGuess(guess)
@@ -115,11 +115,11 @@ async function playerPressesEnter() {
       expect(wrapper.text()).toContain(VICTORY_MSG)
     })
     test('player guesses can only contain letters', async () => {
-      await playerTypesAndSubmitsGuess('763GT')
+      await playerTypesGuess('763GT')
       expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toBe('GT')
     })
     test("don't display non-letters in the input field", async () => {
-      await playerTypesAndSubmitsGuess('333')
+      await playerTypesGuess('333')
       expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toBe('333')
     })
     test('the player loses control after the max amount of guesses have been sent', async () => {
