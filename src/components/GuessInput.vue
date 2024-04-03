@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { WORD_SIZE } from '@/settings'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import englishWords from '@/englishWordsWith5Letters.json'
 import GuessView from '@/components/GuessView.vue'
+import { fiveLetterPalindrome } from '../settings.ts'
 
 withDefaults(defineProps<{ disabled?: boolean }>(), { disabled: false })
 
@@ -25,8 +26,14 @@ const formattedWord = computed<string>({
   }
 })
 
+//define input to hold the input element
+const Input = ref<HTMLInputElement | null>(null)
+
 const onSubmit = () => {
-  if (!englishWords.includes(formattedWord.value)) {
+  if (
+    !englishWords.includes(formattedWord.value) &&
+    !fiveLetterPalindrome.includes(formattedWord.value)
+  ) {
     hasFailedValidation.value = true
     setTimeout(() => (hasFailedValidation.value = false), 500)
     return
@@ -46,6 +53,12 @@ const onKeyDown = (event: KeyboardEvent) => {
     event.preventDefault()
   }
 }
+
+onMounted(() => {
+  if (Input.value !== null) {
+    Input.value.focus()
+  }
+})
 </script>
 
 <template>
@@ -63,6 +76,7 @@ const onKeyDown = (event: KeyboardEvent) => {
     @keydown="onKeyDown"
     autofocus
     @blur="({ target }) => (target as HTMLInputElement).focus()"
+    ref="Input"
   />
 </template>
 
